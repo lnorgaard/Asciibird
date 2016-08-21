@@ -13,7 +13,8 @@
 /**
  * \class Asciimation
  * 
- * \brief Holds the contents of an ASCIImation
+ * \brief 
+ * Holds the contents of an ASCIImation
  *
  * \details
  * Stores an array of characters that will be displayed to the screen, and
@@ -27,24 +28,29 @@ public:
   static const size_t SCREEN_AREA = SCREEN_WIDTH * SCREEN_HEIGHT;
 
   /**
-   * \brief Displays a sprite on the screen until the user enters "q"
+   * \brief 
+   * Displays a sprite on the screen until the user enters "q"
+   * Moves the bird up and down with "w" and "s"
    * 
    * \post The screen is destroyed.
    */
   void show();
   
   /**
-   * \brief Returns the height of the sprite
+   * \brief 
+   * Returns the height of the sprite
    */
    size_t getSpriteHeight(Sprite* aSprite);
    
   /**
-   * \brief Returns the width of the sprite
+   * \brief 
+   * Returns the width of the sprite
    */
    size_t getSpriteWidth(Sprite* aSprite);
   
   /**
-   * \brief places characters into the buffer
+   * \brief 
+   * places characters into the buffer
    * 
    * \details
    * Clears the Asciimation's character buffer, then copies characters
@@ -57,13 +63,17 @@ public:
   void prepareBufferForDisplay(); 
 
   /**
-   * \brief Copies the current buffer contents to ncurses
-   * \post No change to the Asciimation object
+   * \brief 
+   * Copies the current buffer contents to ncurses
+   * 
+   * \post 
+   * No change to the Asciimation object
    */
   void copyBufferToNcurses();
   
   /*
-  * \brief adds a sprite
+  * \brief 
+  * Adds a sprite
   *
   * \details
   * Takes in a reference to a Sprite and stores it in the appropriate 
@@ -79,7 +89,8 @@ public:
 private:
 
    /*
-   * \brief data member that holds the characters
+   * \brief 
+   * Data member that holds the characters
    *
    * \details
    * A buffer of characters of length SCREEN_WIDTH * SCREEN_HEIGHT 
@@ -89,17 +100,23 @@ private:
    char screenStored_[SCREEN_AREA];
 
    /*
-   * \brief An array of Sprite objects that will be drawn to the screen.
+   * \brief 
+   * An array of Sprite objects that will be drawn to the screen.
    */
    Sprite* obstacles[4];
 
    /*
-   * \brief This is the bird
+   * \brief 
+   * This is the bird
    */
    Sprite* flappy_;
 
    /*
-   * \brief Unlike the array obstacles, obstacleLibrary doesn't change.
+   * \brief
+   * An array of potential Sprite objects
+   * 
+   * \details 
+   * Unlike the array obstacles[], obstacleLibrary[] doesn't change.
    * It stores all the possible obstacles (in this case only 3) so that
    * we can randomly choose one from the array later to display on the 
    * screen next!

@@ -14,20 +14,19 @@
 
 /**
  * \class Sprite
- * \brief Holds the contents of a single sprite
+ * 
+ * \brief 
+ * Holds the contents of a single sprite
  *
  * \details
  * Stores an array of characters that will be displayed to the screen, along
  * with the sprite's top-left corner.
- *
- * \remarks
- * The implemented code works for any size sprite.
- *
  */
 class Sprite {
 public:
   /**
-   * \brief Default constructor
+   * \brief 
+   * Default constructor
    * 
    * \details
    * Takes in an image file, two size_t's representing the Sprite's 
@@ -38,27 +37,32 @@ public:
     size_t topLeftCornerCol, const bool shouldScroll);  
   
    /**
-   * \brief Deconstructor
+   * \brief 
+   * Deconstructor
    */
    ~Sprite();
   
    /* 
-   * \brief A char* that points to the char that represent the sprite
+   * \brief 
+   * A char* that points to the char that represent the sprite
    */
    char* spriteStored_;
 
    /*
-   * \brief Return the Sprite's top-left corner row
+   * \brief 
+   * Return the Sprite's top-left corner row
    */
    size_t getTopLeftRow();
    
    /*
-   * \brief Return the Sprite's top-left corner column
+   * \brief 
+   * Return the Sprite's top-left corner column
    */
    size_t getTopLeftCol();
    
    /*
-   * \brief Get the character at the desired spot
+   * \brief 
+   * Get the character at the desired spot
    *
    * \details
    * Returns the col-th character in the row-th row of the Sprite’s 
@@ -67,52 +71,66 @@ public:
    char getCharAt(const size_t row, const size_t col);
    
    /*
-   * \brief Gets the value of the shouldScroll_ data member
+   * \brief 
+   * Gets the value of the shouldScroll_ data member
    */
    bool getScrolling();
 
    /*
-   * \brief Changes the shouldScroll_ data member
+   * \brief 
+   * Changes the shouldScroll_ data member
    */
    void setScrolling(bool shouldScroll);
    
    /*
-   * \brief moves the sprite to the right
+   * \brief 
+   * Moves the sprite to the right
    *
    * \details
-   * moves the sprite one column to the right every time
+   * Moves the sprite one column to the right every time
    * it's called regardless of whether the shouldScroll_
    * data member is set
    */
    void moveRight();
    
    /*
-   * \brief moves the bird up
+   * \brief 
+   * Moves the bird up
    */
    void moveUp();
 
    /*
-   * \brief moves the bird down
+   * \brief 
+   * Moves the bird down
    */
    void moveDown();
 
    /**
-    * \brief returns the height of the sprite
+    * \brief 
+    * Returns the height of the sprite
     */
    size_t getHeight();
    
    /**
-    * \brief returns the width of the sprite
+    * \brief 
+    * Returns the width of the sprite
     */
    size_t getWidth();
 
    /**
-   * \brief Changes the sprite file
+   * \brief 
+   * Changes the sprite file
    */
    void setString(const std::string& imageFile);
    
    
 private:
+   /**
+   * \brief 
+   * Helper function for file stuff
+   */
+   void fileHelper(const std::string& imageFile);
+
    /*
    * \details
    * A boolean data member that is true when the sprite should scroll
