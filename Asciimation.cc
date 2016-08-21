@@ -14,6 +14,7 @@
 #include <iostream>
 #include <ncurses.h>
 #include <unistd.h>
+#include <random>
 
 using std::cout;
 using std::endl;
@@ -85,22 +86,36 @@ void Asciimation::show() {
  * \details Takes in a reference to a sprite and stores it in the appropriate 
  *        data member of the Asciimation object
  */
-void Asciimation::addSprite(Sprite* oneSprite) {
-  sprite_ = oneSprite;
+void Asciimation::addSprite1(Sprite* oneSprite) {
+  obstacles[0] = oneSprite;
+}
+void Asciimation::addSprite2(Sprite* twoSprite) {
+  obstacles[1] = twoSprite;
+}
+void Asciimation::addSprite3(Sprite* threeSprite) {
+  obstacles[2] = threeSprite;
+}
+void Asciimation::addSprite4(Sprite* fourSprite) {
+  obstacles[3] = fourSprite;
+}
+void Asciimation::createLibrary(std::string mid, std::string low, std::string high) {
+  obstacleLibrary[0] = mid;
+  obstacleLibrary[1] = low;
+  obstacleLibrary[2] = high;
 }
 
 /**
  * \brief returns the height of the sprite
  */
-size_t Asciimation::getSpriteHeight() {
-  return sprite_->getHeight();
+size_t Asciimation::getSpriteHeight(Sprite* aSprite) {
+  return aSprite->getHeight();
 }
 
 /**
  * \brief returns the width of the sprite
  */
-size_t Asciimation::getSpriteWidth() {
-  return sprite_->getWidth();
+size_t Asciimation::getSpriteWidth(Sprite* aSprite) {
+  return aSprite->getWidth();
 }
 
 /**
@@ -113,8 +128,20 @@ size_t Asciimation::getSpriteWidth() {
  */
 void Asciimation::prepareBufferForDisplay() {
   
- if (sprite_->getScrolling()) {
-   sprite_->moveRight();
+ if (obstacles[0]->getScrolling()) {
+   obstacles[0]->moveRight();
+ }
+
+ if (obstacles[1]->getScrolling()) {
+   obstacles[1]->moveRight();
+ }
+
+ if (obstacles[2]->getScrolling()) {
+   obstacles[2]->moveRight();
+ }
+
+ if (obstacles[3]->getScrolling()) {
+   obstacles[3]->moveRight();
  }
  
   // loop through screen and clear all of screen buffer
@@ -124,16 +151,27 @@ void Asciimation::prepareBufferForDisplay() {
   }
   
   // use for loops to insert the sprite into the buffer
-  for (size_t spriteRow = 0; spriteRow < getSpriteHeight(); ++spriteRow) {
-    for (size_t spriteCol = 0; spriteCol < getSpriteWidth(); ++spriteCol) {
-      
-      // do math to get index in screenStored_ (used % to wrap around the screen)
-      const size_t screenRow = (spriteRow + sprite_->getTopLeftRow()) % SCREEN_HEIGHT;
-      const size_t screenCol = (spriteCol + sprite_->getTopLeftCol()) % SCREEN_WIDTH;
-      const size_t indexIntoScreenBuffer = screenRow * SCREEN_WIDTH + screenCol;
-      
-      // place the character in the spot using getCharAt
-      screenStored_[indexIntoScreenBuffer] = sprite_->getCharAt(spriteRow, spriteCol);
+  for (size_t spriteRow = 0; spriteRow < getSpriteHeight(obstacles[0]); ++spriteRow) {
+    for (size_t spriteCol = 0; spriteCol < getSpriteWidth(obstacles[0]); ++spriteCol) {
+      for (size_t i = 0; i < 4; ++i) {
+  
+        const size_t screenColCheck = obstacles[i]->getTopLeftCol() % SCREEN_WIDTH;
+        if (screenColCheck == 0) {
+          // change the sprite
+          std::random_device rd;
+          std::mt19937 gen(rd());
+          std::uniform_int_distribution<> dis(0, 2);
+          obstacles[i]->setString(obstacleLibrary[dis(gen)]);
+        }
+        // do math to get index in screenStored_ (used % to wrap around the screen)
+        const size_t screenRow = (spriteRow + obstacles[i]->getTopLeftRow()) % SCREEN_HEIGHT;
+        const size_t screenCol = (spriteCol + obstacles[i]->getTopLeftCol()) % SCREEN_WIDTH;
+        const size_t indexIntoScreenBuffer = screenRow * SCREEN_WIDTH + screenCol;
+        
+        // place the character in the spot using getCharAt
+        screenStored_[indexIntoScreenBuffer] = obstacles[i]->getCharAt(spriteRow, spriteCol);
+        
+      }
     }
   }
 } 

@@ -1,7 +1,7 @@
 /* Sprite.h
    =========
-   Author: Lee Norgaard
-   interface definition for the Sprite class.
+   Author: cs70 and Lee Norgaard
+   Interface definition for the Sprite class.
 
 */
 
@@ -90,6 +90,11 @@ public:
     * \brief returns the width of the sprite
     */
    size_t getWidth();
+
+   /**
+   * \brief Changes the sprite file
+   */
+   void setString(const std::string& imageFile);
    
    
 private:

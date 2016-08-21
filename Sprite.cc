@@ -13,6 +13,7 @@
 #include <string>
 
 using std::ifstream;
+using std::cout;
 using std::cerr;
 using std::endl;
 using std::string;
@@ -23,7 +24,7 @@ using std::string;
  * \details
  * Takes in an image file, two size_t's representing the Sprite's 
  * top-left corner row and column, and a bool representing whether
- * the Sprite should scroll (move left and right).
+ * the Sprite should scroll (move right).
  * 
  * Constructs a sprite of the right size by reading the file that 
  * we give it.
@@ -126,6 +127,50 @@ size_t Sprite::getHeight() {
  */
 size_t Sprite::getWidth() {
   return spriteWidth_;
+}
+
+/**
+ * \brief Changes the sprite file
+ * TODO: make helper function so you don't have to write this twice
+ */
+void Sprite::setString(const string& imageFile) {
+  ifstream inputFile{imageFile};
+
+  if (!inputFile.is_open()) {
+    cerr << "couldn't open file at " << imageFile << endl;
+    exit(1);
+  }
+
+  // Get the width and height of the sprite
+  inputFile >> spriteWidth_;
+  inputFile >> spriteHeight_;
+  inputFile.get();
+  
+  // Allocate the memory for spriteStored_ since we now know the size.
+  spriteStored_ = new char[spriteHeight_ * spriteWidth_];
+  // Default numberofCharacterReadIn.
+  size_t numberOfCharactersReadIn = 0;
+
+  while (numberOfCharactersReadIn < spriteHeight_ * spriteWidth_) {
+    // Read a character
+    const char characterWeRead = inputFile.get();
+    // If the file isn't "good" anymore, the file doesn't match our format
+    if (!inputFile.good()) {
+      // Uh-oh, something's wrong with the file
+      cerr << "couldn't read character number "
+           << numberOfCharactersReadIn << endl;
+      exit(1);
+    }
+    // If it's not a newline, then it's a character we want
+    if (characterWeRead != '\n') {
+      // store characterWeRead into the right spot of your character array
+      spriteStored_[numberOfCharactersReadIn] = characterWeRead;
+
+      ++numberOfCharactersReadIn;
+    }
+    // else, if it is a newline, then we just keep reading
+  }
+  inputFile.close();
 }
 
 /*

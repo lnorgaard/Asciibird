@@ -36,12 +36,12 @@ public:
   /**
    * \brief Returns the height of the sprite
    */
-   size_t getSpriteHeight();
+   size_t getSpriteHeight(Sprite* aSprite);
    
   /**
    * \brief Returns the width of the sprite
    */
-   size_t getSpriteWidth();
+   size_t getSpriteWidth(Sprite* aSprite);
   
   /**
    * \brief places characters into the buffer
@@ -69,7 +69,11 @@ public:
   * Takes in a reference to a Sprite and stores it in the appropriate 
   * data member of the Asciimation object
   */
-  void addSprite(Sprite* oneSprite);
+  void addSprite1(Sprite* oneSprite);
+  void addSprite2(Sprite* twoSprite);
+  void addSprite3(Sprite* threeSprite);
+  void addSprite4(Sprite* fourSprite);
+  void createLibrary(std::string mid, std::string low, std::string high);
 
 private:
 
@@ -84,9 +88,17 @@ private:
    char screenStored_[SCREEN_AREA];
 
    /*
-   * \brief A Sprite object that will be drawn to the screen.
+   * \brief An array of Sprite objects that will be drawn to the screen.
    */
-   Sprite* sprite_;
+   Sprite* obstacles[4];
+
+   /*
+   * \brief Unlike the array obstacles, obstacleLibrary doesn't change.
+   * It stores all the possible obstacles (in this case only 3) so that
+   * we can randomly choose one from the array later to display on the 
+   * screen next!
+   */
+   std::string obstacleLibrary[3];
 
 };
 
