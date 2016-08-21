@@ -16,7 +16,7 @@ int main() {
   
   // Create a Sprite object, have it load sprites/arbitrarySize_mystery2.txt,
   // set the location, and make it move.
-  Sprite mysterySprite_("sprites/arbitrarySize_mystery2.txt", 10, 10, true);
+  Sprite mysterySprite_("sprites/randomSprite.txt", 10, 10, true);
   
   // Create an Asciimation, add the sprite to the asciimation,
   // and show the asciimation!
