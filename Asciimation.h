@@ -73,6 +73,7 @@ public:
   void addSprite2(Sprite* twoSprite);
   void addSprite3(Sprite* threeSprite);
   void addSprite4(Sprite* fourSprite);
+  void addBird(Sprite* flappy);
   void createLibrary(std::string mid, std::string low, std::string high);
 
 private:
@@ -93,12 +94,18 @@ private:
    Sprite* obstacles[4];
 
    /*
+   * \brief This is the bird
+   */
+   Sprite* flappy_;
+
+   /*
    * \brief Unlike the array obstacles, obstacleLibrary doesn't change.
    * It stores all the possible obstacles (in this case only 3) so that
    * we can randomly choose one from the array later to display on the 
    * screen next!
    */
    std::string obstacleLibrary[3];
+
 
 };
 

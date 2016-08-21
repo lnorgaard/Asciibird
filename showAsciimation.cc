@@ -20,6 +20,7 @@ int main() {
   Sprite Sprite2_("sprites/low.txt", 10, 30, true);
   Sprite Sprite3_("sprites/middle.txt", 10, 50, true);
   Sprite Sprite4_("sprites/low.txt", 10, 70, true);
+  Sprite Bird_("sprites/bird.txt", 15, 60, false);
   
   // Create an Asciimation, add the sprite to the asciimation,
   // and show the asciimation!
@@ -29,6 +30,7 @@ int main() {
   mysteryAsciimation_.addSprite2(&Sprite2_);
   mysteryAsciimation_.addSprite3(&Sprite3_);
   mysteryAsciimation_.addSprite4(&Sprite4_);
+  mysteryAsciimation_.addBird(&Bird_);
   mysteryAsciimation_.show();
   
   return 0;

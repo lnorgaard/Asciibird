@@ -115,6 +115,22 @@ void Sprite::moveRight() {
   ++topLeftCornerColumn_;
 }
 
+/*
+* \brief Moves the bird up
+*/
+void Sprite::moveUp() {
+  // move bird one row up
+  --topLeftCornerRow_;
+}
+
+/*
+* \brief Moves the bird down
+*/
+void Sprite::moveDown() {
+  // move bird one row down
+  ++topLeftCornerRow_;
+}
+
 /**
  * \brief Returns the height of the sprite
  */

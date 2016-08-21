@@ -27,7 +27,7 @@ using std::endl;
  */
 void Asciimation::show() {
 
-  const int PAUSE_TIME_IN_MICROSECONDS = 40000;
+  const int PAUSE_TIME_IN_MICROSECONDS = 60000;
 
   // Initialize the screen
   initscr();
@@ -97,6 +97,9 @@ void Asciimation::addSprite3(Sprite* threeSprite) {
 }
 void Asciimation::addSprite4(Sprite* fourSprite) {
   obstacles[3] = fourSprite;
+}
+void Asciimation::addBird(Sprite* flappy) {
+  flappy_ = flappy;
 }
 void Asciimation::createLibrary(std::string mid, std::string low, std::string high) {
   obstacleLibrary[0] = mid;
@@ -172,6 +175,21 @@ void Asciimation::prepareBufferForDisplay() {
         screenStored_[indexIntoScreenBuffer] = obstacles[i]->getCharAt(spriteRow, spriteCol);
         
       }
+    }
+  }
+
+  // use for loops to insert the sprite into the buffer
+  for (size_t spriteRow = 0; spriteRow < getSpriteHeight(flappy_); ++spriteRow) {
+    for (size_t spriteCol = 0; spriteCol < getSpriteWidth(flappy_); ++spriteCol) {
+
+        // do math to get index in screenStored_ (used % to wrap around the screen)
+        const size_t screenRow = (spriteRow + flappy_->getTopLeftRow()) % SCREEN_HEIGHT;
+        const size_t screenCol = (spriteCol + flappy_->getTopLeftCol()) % SCREEN_WIDTH;
+        const size_t indexIntoScreenBuffer = screenRow * SCREEN_WIDTH + screenCol;
+        
+        // place the character in the spot using getCharAt
+        screenStored_[indexIntoScreenBuffer] = flappy_->getCharAt(spriteRow, spriteCol);
+        
     }
   }
 } 

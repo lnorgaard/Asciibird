@@ -81,6 +81,16 @@ public:
    */
    void moveRight();
    
+   /*
+   * \brief moves the bird up
+   */
+   void moveUp();
+
+   /*
+   * \brief moves the bird down
+   */
+   void moveDown();
+   
    /**
     * \brief returns the height of the sprite
     */
