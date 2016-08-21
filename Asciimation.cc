@@ -20,10 +20,12 @@ using std::cout;
 using std::endl;
 
 /**
- * \brief shows the Asciimation
+ * \brief 
+ * Shows the Asciimation
  * 
- * \details Initializes the screen for ncurses, then repeatedly 
- *      updates the screen until the user exits by pressing 'q'.
+ * \details 
+ * Initializes the screen for ncurses, then repeatedly 
+ * updates the screen until the user exits by pressing 'q'.
  */
 void Asciimation::show() {
 
@@ -70,6 +72,12 @@ void Asciimation::show() {
     if (ch == 'q') {
       weShouldContinueDisplaying = false;
     }
+    if (ch == 'w') {
+      flappy_->moveUp();
+    }
+    if (ch == 's') {
+      flappy_->moveDown();
+    }
   }
 
   // Put the cursor back to beginning of the last row of the terminal, where
@@ -81,10 +89,15 @@ void Asciimation::show() {
 }
 
 /**
- * \brief adds a sprite
- * 
- * \details Takes in a reference to a sprite and stores it in the appropriate 
- *        data member of the Asciimation object
+ * \brief 
+ * Takes in a reference to a sprite and stores it in the appropriate 
+ * data member of the Asciimation object
+ *
+ * \details 
+ * The following methods add desired sprites into...
+ *  obstacles[]: an array of the current obstacle sprites on screen
+ *  flappy_: a single sprite representing the bird
+ *  obstacleLibrary[]: an array of all potential obstacle sprites
  */
 void Asciimation::addSprite1(Sprite* oneSprite) {
   obstacles[0] = oneSprite;
@@ -108,52 +121,54 @@ void Asciimation::createLibrary(std::string mid, std::string low, std::string hi
 }
 
 /**
- * \brief returns the height of the sprite
+ * \brief 
+ * Returns the height of the sprite
  */
 size_t Asciimation::getSpriteHeight(Sprite* aSprite) {
   return aSprite->getHeight();
 }
 
 /**
- * \brief returns the width of the sprite
+ * \brief 
+ * Returns the width of the sprite
  */
 size_t Asciimation::getSpriteWidth(Sprite* aSprite) {
   return aSprite->getWidth();
 }
 
 /**
- * \brief places characters into the buffer
+ * \brief 
+ * Places characters into the buffer
  * 
- * \details clears the Asciimation's character buffer, then copies characters
- *        from the stored Sprite to the character buffer using the Sprite's 
- *        getCharAt member function. It should place each character at the 
- *        right spot in the Asciimation's character buffer.
+ * \details 
+ * Clears the Asciimation's character buffer, then copies characters
+ * from the stored Sprite to the character buffer using the Sprite's 
+ * getCharAt member function. It should place each character at the 
+ * right spot in the Asciimation's character buffer.
  */
 void Asciimation::prepareBufferForDisplay() {
   
- if (obstacles[0]->getScrolling()) {
+  // Move all of the obstacles to the right
+  if (obstacles[0]->getScrolling()) {
    obstacles[0]->moveRight();
- }
-
- if (obstacles[1]->getScrolling()) {
+  }
+  if (obstacles[1]->getScrolling()) {
    obstacles[1]->moveRight();
- }
-
- if (obstacles[2]->getScrolling()) {
+  }
+  if (obstacles[2]->getScrolling()) {
    obstacles[2]->moveRight();
- }
-
- if (obstacles[3]->getScrolling()) {
+  }
+  if (obstacles[3]->getScrolling()) {
    obstacles[3]->moveRight();
- }
+  }
  
-  // loop through screen and clear all of screen buffer
+  // Clear all of screen buffer
   for (size_t i = 0; i < SCREEN_AREA; ++i) {
     // replace with empty char
     screenStored_[i] = ' '; 
   }
   
-  // use for loops to insert the sprite into the buffer
+  // Insert the obstacles into the buffer
   for (size_t spriteRow = 0; spriteRow < getSpriteHeight(obstacles[0]); ++spriteRow) {
     for (size_t spriteCol = 0; spriteCol < getSpriteWidth(obstacles[0]); ++spriteCol) {
       for (size_t i = 0; i < 4; ++i) {
@@ -178,7 +193,7 @@ void Asciimation::prepareBufferForDisplay() {
     }
   }
 
-  // use for loops to insert the sprite into the buffer
+  // Insert the bird into the buffer
   for (size_t spriteRow = 0; spriteRow < getSpriteHeight(flappy_); ++spriteRow) {
     for (size_t spriteCol = 0; spriteCol < getSpriteWidth(flappy_); ++spriteCol) {
 
@@ -188,19 +203,30 @@ void Asciimation::prepareBufferForDisplay() {
         const size_t indexIntoScreenBuffer = screenRow * SCREEN_WIDTH + screenCol;
         
         // place the character in the spot using getCharAt
-        screenStored_[indexIntoScreenBuffer] = flappy_->getCharAt(spriteRow, spriteCol);
+        if (screenStored_[indexIntoScreenBuffer] == ' ') {
+          screenStored_[indexIntoScreenBuffer] = flappy_->getCharAt(spriteRow, spriteCol);
+        } else {
+          screenStored_[indexIntoScreenBuffer] = flappy_->getCharAt(spriteRow, spriteCol);
+          cout << "you lose" << endl;
+          obstacles[0]->setScrolling(false);
+          obstacles[1]->setScrolling(false);
+          obstacles[2]->setScrolling(false);
+          obstacles[3]->setScrolling(false);
+        }
         
     }
   }
 } 
 
 /**
- * \brief copies the current buffer contents to ncurses
+ * \brief 
+ * Copies the current buffer contents to ncurses
  * 
- * \details loop through all of the characters in the character buffer and
- *        copy them to the right place on the screen, using the ncurses
- *        function mvaddch. mvaddch(r, c, char) puts the character char at
- *        row r, column c of the screen.
+ * \details 
+ * Loop through all of the characters in the character buffer and
+ * copy them to the right place on the screen, using the ncurses
+ * function mvaddch. mvaddch(r, c, char) puts the character char at
+ * row r, column c of the screen.
  */
 void Asciimation::copyBufferToNcurses() {
   

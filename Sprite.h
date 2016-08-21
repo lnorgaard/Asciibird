@@ -70,6 +70,11 @@ public:
    * \brief Gets the value of the shouldScroll_ data member
    */
    bool getScrolling();
+
+   /*
+   * \brief Changes the shouldScroll_ data member
+   */
+   void setScrolling(bool shouldScroll);
    
    /*
    * \brief moves the sprite to the right
@@ -90,7 +95,7 @@ public:
    * \brief moves the bird down
    */
    void moveDown();
-   
+
    /**
     * \brief returns the height of the sprite
     */

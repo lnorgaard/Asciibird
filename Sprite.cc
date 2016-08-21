@@ -103,6 +103,13 @@ bool Sprite::getScrolling() {
 }
 
 /*
+* \brief Changes the shouldScroll_ data member
+*/
+void Sprite::setScrolling(bool shouldScroll) {
+  shouldScroll_ = shouldScroll;
+}
+
+/*
 * \brief Moves the sprite right
 *
 * \details
