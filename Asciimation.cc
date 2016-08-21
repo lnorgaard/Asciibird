@@ -167,7 +167,14 @@ void Asciimation::prepareBufferForDisplay() {
     // replace with empty char
     screenStored_[i] = ' '; 
   }
-  
+
+  // Display the score
+  std::string scoreText = "Score: " + std::to_string(score_/65);
+  size_t stringLength = scoreText.size();
+  for (size_t i = 0; i <stringLength; ++i) {
+    screenStored_[i] = scoreText[i];
+  }
+
   // Insert the obstacles into the buffer
   for (size_t spriteRow = 0; spriteRow < getSpriteHeight(obstacles[0]); ++spriteRow) {
     for (size_t spriteCol = 0; spriteCol < getSpriteWidth(obstacles[0]); ++spriteCol) {
@@ -180,6 +187,7 @@ void Asciimation::prepareBufferForDisplay() {
           std::mt19937 gen(rd());
           std::uniform_int_distribution<> dis(0, 2);
           obstacles[i]->setString(obstacleLibrary[dis(gen)]);
+          ++score_;
         }
         // do math to get index in screenStored_ (used % to wrap around the screen)
         const size_t screenRow = (spriteRow + obstacles[i]->getTopLeftRow()) % SCREEN_HEIGHT;

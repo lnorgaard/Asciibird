@@ -16,13 +16,13 @@ int main() {
   
   // Create the first 4 moving obstacles 
   // (all middle height so user doesn't die on accident)
-  Sprite Sprite1_("sprites/middle.txt", 10, 10, true);
-  Sprite Sprite2_("sprites/middle.txt", 10, 30, true);
-  Sprite Sprite3_("sprites/middle.txt", 10, 50, true);
-  Sprite Sprite4_("sprites/middle.txt", 10, 70, true);
+  Sprite Sprite1_("sprites/middle.txt", 3, 10, true);
+  Sprite Sprite2_("sprites/middle.txt", 3, 30, true);
+  Sprite Sprite3_("sprites/middle.txt", 3, 50, true);
+  Sprite Sprite4_("sprites/middle.txt", 3, 70, true);
 
   // Create the bird (false because it shouldn't move)
-  Sprite Bird_("sprites/bird.txt", 15, 60, false);
+  Sprite Bird_("sprites/bird.txt", 8, 60, false);
   
   // Create an Asciimation, add the sprites to the asciimation,
   // and show the asciimation!
@@ -34,7 +34,7 @@ int main() {
   mysteryAsciimation_.addSprite2(&Sprite2_);
   mysteryAsciimation_.addSprite3(&Sprite3_);
   mysteryAsciimation_.addSprite4(&Sprite4_);
-  
+
   mysteryAsciimation_.addBird(&Bird_);
 
   mysteryAsciimation_.show();

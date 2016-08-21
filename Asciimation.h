@@ -123,6 +123,12 @@ private:
    */
    std::string obstacleLibrary[3];
 
+   /*
+   * \brief
+   * Keeps score
+   */
+   size_t score_ = 0;
+
 
 };
 
