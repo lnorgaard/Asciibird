@@ -149,17 +149,19 @@ size_t Asciimation::getSpriteWidth(Sprite* aSprite) {
 void Asciimation::prepareBufferForDisplay() {
   
   // Move all of the obstacles to the right
-  if (obstacles[0]->getScrolling()) {
-   obstacles[0]->moveRight();
-  }
-  if (obstacles[1]->getScrolling()) {
-   obstacles[1]->moveRight();
-  }
-  if (obstacles[2]->getScrolling()) {
-   obstacles[2]->moveRight();
-  }
-  if (obstacles[3]->getScrolling()) {
-   obstacles[3]->moveRight();
+  for (size_t obs = 0; obs < 4; ++obs) {
+    if (obstacles[obs]->getScrolling()) {
+      obstacles[obs]->moveRight();
+    }
+    const size_t screenColCheck = obstacles[obs]->getTopLeftCol() % SCREEN_WIDTH;
+    if (screenColCheck == 0) {
+      // change the sprite
+      std::random_device rd;
+      std::mt19937 gen(rd());
+      std::uniform_int_distribution<> dis(0, 2);
+      obstacles[obs]->setString(obstacleLibrary[dis(gen)]);
+      ++score_;
+    }
   }
  
   // Clear all of screen buffer
@@ -169,7 +171,7 @@ void Asciimation::prepareBufferForDisplay() {
   }
 
   // Display the score
-  std::string scoreText = "Score: " + std::to_string(score_/65);
+  std::string scoreText = "Score: " + std::to_string(score_);
   size_t stringLength = scoreText.size();
   for (size_t i = 0; i <stringLength; ++i) {
     screenStored_[i] = scoreText[i];
@@ -180,15 +182,6 @@ void Asciimation::prepareBufferForDisplay() {
     for (size_t spriteCol = 0; spriteCol < getSpriteWidth(obstacles[0]); ++spriteCol) {
       for (size_t i = 0; i < 4; ++i) {
   
-        const size_t screenColCheck = obstacles[i]->getTopLeftCol() % SCREEN_WIDTH;
-        if (screenColCheck == 0) {
-          // change the sprite
-          std::random_device rd;
-          std::mt19937 gen(rd());
-          std::uniform_int_distribution<> dis(0, 2);
-          obstacles[i]->setString(obstacleLibrary[dis(gen)]);
-          ++score_;
-        }
         // do math to get index in screenStored_ (used % to wrap around the screen)
         const size_t screenRow = (spriteRow + obstacles[i]->getTopLeftRow()) % SCREEN_HEIGHT;
         const size_t screenCol = (spriteCol + obstacles[i]->getTopLeftCol()) % SCREEN_WIDTH;
